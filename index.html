@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スクール21川越本部教室 2025年度夏期講習 料金シミュレーター</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #005ab3;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .checkbox-group label {
+            font-weight: normal;
+            display: block; /* Changed for better alignment */
+            margin-bottom: 5px; /* Added spacing */
+        }
+        .checkbox-group input {
+             margin-right: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px dashed #007bff;
+            border-radius: 8px;
+            background-color: #e7f3ff;
+        }
+        #result h2 {
+            margin-top: 0;
+            color: #005ab3;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #cce5ff;
+            font-size: 16px;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .result-item span:first-child {
+            font-weight: bold;
+        }
+        #total-amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d9534f;
+        }
+        #special-courses {
+            display: none; /* Initially hidden */
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>スクール21川越本部教室<br>2025年度夏期講習 料金シミュレーター</h1>
+
+        <div class="form-group">
+            <label for="grade">1. 学年を選択してください</label>
+            <select id="grade">
+                <option value="">選択してください</option>
+                <option value="中3">中学3年生</option>
+                <option value="中2">中学2年生</option>
+                <option value="中1">中学1年生</option>
+                <option value="小6">小学6年生</option>
+                <option value="小5">小学5年生</option>
+                <option value="小4">小学4年生</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="course">2. コースを選択してください</label>
+            <select id="course" disabled>
+                <option value="">学年を先に選択してください</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>3. 受講する期間を選択してください（複数選択可）</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="term" value="1"> Ⅰ期</label>
+                <label><input type="checkbox" name="term" value="2"> Ⅱ期</label>
+                <label><input type="checkbox" name="term" value="3"> Ⅲ期</label>
+                <label><input type="checkbox" name="term" value="4"> Ⅳ期</label>
+            </div>
+        </div>
+        
+        <div id="special-courses">
+             <label>【中3生向け】集中特訓に参加しますか？（複数選択可）</label>
+             <div class="checkbox-group">
+                <label><input type="checkbox" name="special" value="sp1_honka"> 集中特訓①　北辰テスト攻略特訓</label>
+                <label><input type="checkbox" name="special" value="sp2_honka"> 集中特訓②　北辰テスト攻略特訓</label>
+                <label><input type="checkbox" name="special" value="sp1_nankan"> 集中特訓①　難関入試攻略特訓</label>
+                <label><input type="checkbox" name="special" value="sp2_nankan"> 集中特訓②　難関入試攻略特訓</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="isNewStudent"> 4. 夏期講習から入学します（公開模試が必修となります）</label>
+            </div>
+        </div>
+
+        <button id="calculateBtn">料金を計算する</button>
+
+        <div id="result" style="display: none;">
+            <h2>お見積り金額</h2>
+            <div class="result-item">
+                <span>授業料</span>
+                <span id="tuition-fee">0円</span>
+            </div>
+            <div class="result-item">
+                <span>講習テキスト代</span>
+                <span id="textbook-fee">0円</span>
+            </div>
+            <div class="result-item">
+                <span>公開模試代</span>
+                <span id="mock-exam-fee">0円</span>
+            </div>
+            <div class="result-item">
+                <span><strong>合計金額（税込）</strong></span>
+                <span id="total-amount"><strong>0円</strong></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- 修正箇所：データベースの定義 ---
+            const courseData = {
+                '中3': {
+                    '平日本科': { tuition: 31350, textbook: 5500, mockExam: 4620 },
+                    '難関国私立(3科)': { tuition: 21450, textbook: 6794, mockExam: 6400 },
+                    '難関国私立(5科)': { tuition: 35750, textbook: 14934, mockExam: 6700 } // 3科コースと社理コースの合算
+                },
+                '中2': {
+                    '平日本科': { tuition: 17380, textbook: 4565, mockExam: 3960 },
+                    '難関国私立(5科)': { tuition: 19250, textbook: 6688, mockExam: 3960 }
+                },
+                '中1': {
+                    '平日本科': { tuition: 17380, textbook: 4565, mockExam: 3960 }
+                },
+                '小6': { '平日本科': { tuition: 8250, textbook: 3300, mockExam: 2970 } },
+                '小5': { '平日本科': { tuition: 8250, textbook: 3300, mockExam: 2970 } },
+                '小4': { '平日本科': { tuition: 8250, textbook: 3300, mockExam: 2970 } }
+            };
+
+            const specialCourseData = {
+                'sp1_honka': { name: '集中特訓① 北辰テスト攻略', tuition: 29700, textbook: 3300 },
+                'sp2_honka': { name: '集中特訓② 北辰テスト攻略', tuition: 29700, textbook: 1650 }, // 元のデータに準拠
+                'sp1_nankan': { name: '集中特訓① 難関入試攻略', tuition: 27500, textbook: 1650 },
+                'sp2_nankan': { name: '集中特訓② 難関入試攻略', tuition: 27500, textbook: 1650 }
+            };
+
+            const gradeSelect = document.getElementById('grade');
+            const courseSelect = document.getElementById('course');
+            const calculateBtn = document.getElementById('calculateBtn');
+            const resultDiv = document.getElementById('result');
+            const specialCoursesDiv = document.getElementById('special-courses');
+
+            // 学年選択時のイベント
+            gradeSelect.addEventListener('change', function() {
+                const selectedGrade = this.value;
+                courseSelect.innerHTML = ''; // コース選択肢をリセット
+                courseSelect.disabled = true;
+
+                if (selectedGrade && courseData[selectedGrade]) {
+                    courseSelect.disabled = false;
+                    courseSelect.add(new Option('コースを選択してください', ''));
+                    const courses = courseData[selectedGrade];
+                    for (const courseName in courses) {
+                        courseSelect.add(new Option(courseName, courseName));
+                    }
+                } else {
+                     courseSelect.add(new Option('学年を先に選択してください', ''));
+                }
+                
+                // 中3が選択された場合のみ集中特訓を表示
+                if(selectedGrade === '中3') {
+                    specialCoursesDiv.style.display = 'block';
+                } else {
+                    specialCoursesDiv.style.display = 'none';
+                    document.querySelectorAll('input[name="special"]').forEach(cb => cb.checked = false);
+                }
+
+                resultDiv.style.display = 'none';
+            });
+
+            // 計算ボタンクリック時のイベント
+            calculateBtn.addEventListener('click', function() {
+                const selectedGrade = gradeSelect.value;
+                const selectedCourse = courseSelect.value;
+                const selectedTerms = document.querySelectorAll('input[name="term"]:checked');
+                const isNewStudent = document.getElementById('isNewStudent').checked;
+                const selectedSpecials = document.querySelectorAll('input[name="special"]:checked');
+
+                if (!selectedGrade || !selectedCourse) {
+                    alert('学年とコースを選択してください。');
+                    return;
+                }
+
+                if (selectedTerms.length === 0 && selectedSpecials.length === 0) {
+                    alert('受講する期間または集中特訓を1つ以上選択してください。');
+                    return;
+                }
+
+                const courseInfo = courseData[selectedGrade][selectedCourse];
+                
+                // 1. 授業料の計算
+                let tuitionTotal = courseInfo.tuition * selectedTerms.length;
+
+                // 2. テキスト代の計算
+                let textbookTotal = (selectedTerms.length > 0) ? courseInfo.textbook : 0;
+                
+                // 3. 集中特訓の料金を加算
+                selectedSpecials.forEach(special => {
+                    const specialInfo = specialCourseData[special.value];
+                    tuitionTotal += specialInfo.tuition;
+                    textbookTotal += specialInfo.textbook;
+                });
+
+                // 4. 模試代の計算
+                const mockExamFee = isNewStudent ? courseInfo.mockExam : 0;
+
+                // 5. 合計金額
+                const totalAmount = tuitionTotal + textbookTotal + mockExamFee;
+
+                // 結果の表示
+                document.getElementById('tuition-fee').textContent = `${tuitionTotal.toLocaleString()}円`;
+                document.getElementById('textbook-fee').textContent = `${textbookTotal.toLocaleString()}円`;
+                document.getElementById('mock-exam-fee').textContent = `${mockExamFee.toLocaleString()}円`;
+                document.getElementById('total-amount').innerHTML = `<strong>${totalAmount.toLocaleString()}円</strong>`;
+
+                resultDiv.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
